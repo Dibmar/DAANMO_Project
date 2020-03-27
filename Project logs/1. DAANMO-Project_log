@@ -27,7 +27,24 @@ The present document serves as a Project Log. Currently the project is archived 
             * Similar column issue as in -Credits- 
 
 26/03/2020
-    +Actions taken
+    + Actions taken
         - Uploaded project to Kaggle, as the filesize far exeeced GitHub limits (https://www.kaggle.com/servandocontrario/notebooks).
-    +Random encounters
+    + Random encounters
+        - All issues cited in 25/03/2020 are still being looked at and researched.
+
+27/03/2020
+    + Actions taken
+        - Exploration of movie_metadata's columns:
+            * budget
+            * revenue 
+            * popularity
+        - Creation of a df (benefits) referent to movie_metadata. It shows the benefits achieved by the movie in question. It contains data about 17% (aprox) of the total sum of movies (see Random encounters)
+        - Creation of a df (popularity_df) referent to movie_metadata. It shows the popularity coeficient. Currently in float format.
+        - All kernels in Kaggle are now public
+    + Random encounters
+        - budget and revenue
+            * Large number of NaN and 0 detected. As much as to render 82% of data available inoperable SOLVED 1/2
+            * Also the budget column seems to be set as str/object by default instead of int or float SOLVED
+        - popularity
+            * popularity is filled with objects (strings and floats) that difficult the conversion into plottable integrers. SOLVED
         - All issues cited in 25/03/2020 are still being looked at and researched.
