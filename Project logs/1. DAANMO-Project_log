@@ -48,3 +48,13 @@ The present document serves as a Project Log. Currently the project is archived 
         - popularity
             * popularity is filled with objects (strings and floats) that difficult the conversion into plottable integrers. SOLVED
         - All issues cited in 25/03/2020 are still being looked at and researched.
+
+30/03/2020
+    + Actions taken
+        - The revenue column has been created in the benefits df (refering to budgets and revenue)
+            * All benefits seem to be located in a specific interval. A number of clear outliers have been identified.
+        - The columns of "languages" and "production countries" columns
+            * Revealing a large predominance and importance of the english speaking market, specifically the US'
+    + Random encounters
+        - Kaggle and pyplots does not seem to work in the same way
+        - All issues, except the ones cited aboved, are still being looked at and researched.
