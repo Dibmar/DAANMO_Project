@@ -58,3 +58,12 @@ The present document serves as a Project Log. Currently the project is archived 
     + Random encounters
         - Kaggle and pyplots does not seem to work in the same way
         - All issues, except the ones cited aboved, are still being looked at and researched.
+
+31/03/2020
+    + Actions taken
+        - The ratings and ratings_small.csv have been explored
+            * The timestamp issue has been SOLVED
+            * Graphs have been produced showing the distribution of the ratings of both files
+            * Graphs pngs have been uploaded to GitHub
+    + Random encounters
+        - Kaggle does not display the graphs it produces.

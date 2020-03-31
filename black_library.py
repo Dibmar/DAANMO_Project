@@ -109,21 +109,41 @@ def gerneral_info (df):
                         What it needs
     Your dataframe
     """
+    print("""1) Presence and numbers of NaN values \n2) Shape of df \n3) Column names \n4) All of the above""")
+    choice = int(input("Which data would you like to have? (only numbers are valid inputs!)>"))
+    
     nan = df.isnull().any()
+    nan_count = df.isnull().sum()
     shape = df.shape
     col_names =  df.columns
-    return nan, shape, col_names
+
+    if choice == 1:
+        return nan, nan_count
+    elif choice == 2:
+        return shape
+    elif choice == 3:
+        return col_names
+    elif choice == 4:
+        return nan, nan_count, shape, col_names
+
+
+gerneral_info(super_df)
 
 def time:indexer (df):
     """
                         What it does
-    Groups your data by the time scale that you want (Year, Month, Day...)
+    Groups your data by the time scale that you want (Year, Month, Day...) creating a new column in the process
 
                         What it needs
     A dataframe and your input
     """
-    t_input = input("Select time scale (year, week, day)>")
-    if t_input
+    t_input = input("Select time scale (year, week, day). Please type this as given here>")
+    if t_input == "year":
+        df['year'] = df.index.year
+    elif t_input == "month":
+        df['month'] = df.index.month
+    elif t_input == "day":
+        df['day'] = df.index.day
 
 # capitalizer (var)
 
@@ -131,3 +151,8 @@ def time:indexer (df):
 # percentiles (variable)
 # plotter (variable = heights)
 # popular (df = chipo, item_searched, quantity)
+
+# LAMBDAS
+
+# Convert takes a timestamp object and converts it to a date object. Useful for dataframes columns
+convert = lambda e: datetime.utcfromtimestamp(e).strftime('%Y-%m-%d') # %H:%M:%S ommited
