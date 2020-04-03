@@ -67,3 +67,15 @@ The present document serves as a Project Log. Currently the project is archived 
             * Graphs pngs have been uploaded to GitHub
     + Random encounters
         - Kaggle does not display the graphs it produces.
+
+03/04/2020
+    + Actions taken
+        - New jupyter notebook created (cross-indexing). It's aim is to serve as a location for the presentation of the results that need to be expressed by using multiple csvs
+        - New jupyter notebook created (keywords). This is the last csv in need of exploratory work
+            * Contains information relevant to the pitch / marketing of the movie: useful for recommendation generator.
+        - Continuing wiht movie_metadata research.
+        - All code to date uploaded to GitHub. Kaggle will be updated when the project is complete, as per recommendation.
+    
+    + Random encounters
+        - The credits/cast cells are still a problem: translation from a pd series to a json and then again to pd is necessary. Unfortunately, pd series objects cannot be expressed that way apparently
+        - Keywords suffers from the same issues as expressed above
