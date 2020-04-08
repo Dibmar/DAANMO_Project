@@ -7,7 +7,16 @@ DAANMO consists of six (6) dataframes, which in turn contain more than 4500 diff
     - Keywords: genre related keywords for pitch
     - Ratings and Ratings small: ratings from original source, up to 5 stars.
 
-The present document serves as a Project Log. Currently the project is archived in Kaggle due to filesize limits (https://www.kaggle.com/servandocontrario/notebooks)
+
+Definitions
+    The following definitions have been provided to better understand the terms used in the present document and files.
+        - Genres: a collection of asociations (mainly narrative and iconographic) that allows the inmediate identification of the themes of the movie.
+        - Subgenres: the combination of two or more genres
+        - Cast: part of the creative team. Composed by actors with lines.
+        - Crew: creative team. Responsible for the creation of the movie. In this document and files, refers to every other individual involved in the production of a movie.
+
+DAANMO Log
+The present document serves as a Project Log. The project is archived in Kaggle due to filesize limits (https://www.kaggle.com/servandocontrario/notebooks) and GitHub (https://github.com/Dibmar/Dibmar_rep)
 
 25/03/2020
     + Actions taken
@@ -79,3 +88,11 @@ The present document serves as a Project Log. Currently the project is archived 
     + Random encounters
         - The credits/cast cells are still a problem: translation from a pd series to a json and then again to pd is necessary. Unfortunately, pd series objects cannot be expressed that way apparently
         - Keywords suffers from the same issues as expressed above
+
+08/04/2020
+    + Actions taken
+        - credits and keywords csvs are now being explored using the literal_eval method
+        - "budget" df is now called "profit". "money_earned" column is now called "profit"
+        - movie_metadata exploration continues:
+            * Better representation of genres by usage of list separation methods
+            * Combination of "profit" and "genres" in "profit_gen". A top 10 most profitable genres and subgeneres have been plotted.
