@@ -14,6 +14,10 @@ Definitions
         - Subgenres: the combination of two or more genres
         - Cast: part of the creative team. Composed by actors with lines.
         - Crew: creative team. Responsible for the creation of the movie. In this document and files, refers to every other individual involved in the production of a movie.
+            * Director: The person responsible for coordinating the creative team in the shooting of the script.
+            * Producer: The person responsible for financing, budgeting and coordinating with both the creative team and financial partners.
+            * Wirter: The person credited for writing the movie's script.
+        - Script: a formated tecnical document which allows the shooting of a motion picture, whith necessary descriptions for characters, scenes... etc.
 
 DAANMO Log
 The present document serves as a Project Log. The project is archived in Kaggle due to filesize limits (https://www.kaggle.com/servandocontrario/notebooks) and GitHub (https://github.com/Dibmar/Dibmar_rep)
@@ -32,7 +36,7 @@ The present document serves as a Project Log. The project is archived in Kaggle 
             * NaN data encountered. SOLVED: Set to 0 as default for data conversion. 
         -Movies Metadata
             * NaN values encountered in IMDB Id column. Probably related to Links and Links Small problem. Identification of this titles (17/45000) may prove impossible
-            * Various NaN values in all other columns except columns: adult, budget, genres, id and original title. THough worrying, none of these NaN values appear in large numbers in key columns.
+            * Various NaN values in all other columns except columns: adult, budget, genres, id and original title. Though worrying, none of these NaN values appear in large numbers in key columns.
             * Similar column issue as in -Credits- 
 
 26/03/2020
@@ -96,3 +100,27 @@ The present document serves as a Project Log. The project is archived in Kaggle 
         - movie_metadata exploration continues:
             * Better representation of genres by usage of list separation methods
             * Combination of "profit" and "genres" in "profit_gen". A top 10 most profitable genres and subgeneres have been plotted.
+
+13/04/2020
+    + Actions taken
+        - cast explored:
+            * gender distribution seems to indicate a predominance of male actors, though some margin of error must be taken into account.
+    
+    + Random encounters
+        - credits:
+            * need to establish a categorization of billing for actors in the credits. Info has been requested.
+
+14/04/2020
+    + Actions taken
+        - cast df has been explored
+        - crew df is being explored
+            * Cleaning process 2/3 done
+            * Director, Producer and Wirter roles selected for analysis.
+                First two have been selected for their relevance and impact in the movie making process.
+                Third one in order to show film-maiking as a colaborative enterprise.
+        - Introductory document uploaded in both spanish and english
+            * Delineating both the subject matter and DAANMO's aims
+    
+    + Random encounters
+        - crew df
+            * Numerous instances of empty cells in producers and writers columns. That should not be. Nonetheless has no feasable fix. And therefore shoud be ignored in the future.
