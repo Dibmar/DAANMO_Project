@@ -124,3 +124,12 @@ The present document serves as a Project Log. The project is archived in Kaggle 
     + Random encounters
         - crew df
             * Numerous instances of empty cells in producers and writers columns. That should not be. Nonetheless has no feasable fix. And therefore shoud be ignored in the future.
+
+15/04/2020
+    + Actions taken
+        - crew df cleaned and explored
+            * A high number of NaNs in the directos and producers columns have been observed. The backwards-fillna method has been utilized.
+            * Nonetheless, the disparity of gender ratios within the most important roles in movie production has been noted: female personnel is by far the less numerous.
+                Further studies of this trend may help the visualization of sexual harrasment in the movie industry
+    + Random encounters
+        - High number of NaNs in crew df refering to directors and producers columns. SOLVED
