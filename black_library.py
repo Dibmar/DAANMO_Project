@@ -101,7 +101,7 @@ def f_protected (x):
     
     return filter_f(x = l1)
 
-def gerneral_info (df):
+def general_info (df):
     """
                         What it does
     Takes the dataframe and scans it for NaN values, measures its shape and checks the column names. All of theese are returned at the end.
@@ -127,9 +127,7 @@ def gerneral_info (df):
         return nan, nan_count, shape, col_names
 
 
-gerneral_info(super_df)
-
-def time:indexer (df):
+def time_indexer (df):
     """
                         What it does
     Groups your data by the time scale that you want (Year, Month, Day...) creating a new column in the process
@@ -145,6 +143,49 @@ def time:indexer (df):
     elif t_input == "day":
         df['day'] = df.index.day
 
+def gender_search (df):
+    """
+                        ---What it does---
+    gender_search goes trough your df 'gender' column and checks the values. If if finds 1, 2 or 0 does the following:
+        * If the value is equal to 1: changes the value to 'Female'
+        * If the value is equal to 2: changes the value to 'Male'
+        * If the value is equal to 0: takes your 'name' column and makes a new variable with the first name, then checks it with it's own DB and changes the value to whatever gender is assinged to it.
+        * None of the above: does nothing, congrats.
+
+    Prints a "Done" when its done.
+
+                        ---What it needs---
+    gender_search requires the following:
+        * Your df of choice to change (df)
+                - Your columns SHOULD be named 'name' and 'gender' for it to work
+        * A df of names and their current gender value: 
+                - This df SHOULD be named 'dfnu' (DataFrame Names Unique)
+                - This df SHOULD have it's values filtered through the drop_duplicates method of pandas (keep= whatever you want except false)
+                        
+                        ---Notes---
+    Feel free to add more genders to the mix, but be reminded that you'll need a df that supports it.
+    """
+    for e in df.index:
+        usuario = df.loc[e]
+        gender = usuario['gender']
+        
+        if gender == 0:
+            name = usuario['name'].split(' ')[0]
+            listSerie = dfnu['gender'].loc[dfnu.name == name].unique()
+            if len(listSerie) == 1:
+                df.loc[e, 'gender'] = listSerie[0]
+            else:
+                df.loc[e, 'gender'] = None
+            print(df.loc[e, 'gender'])
+        elif gender == 1:
+            df.loc[e, 'gender'] = 'Male'
+        else:
+            df.loc[e, 'gender'] = "Female"
+
+    print ("Done")
+
+print("Done")
+
 # capitalizer (var)
 
 # mean_min_max_standard (variable)
@@ -156,3 +197,6 @@ def time:indexer (df):
 
 # Convert takes a timestamp object and converts it to a date object. Useful for dataframes columns
 convert = lambda e: datetime.utcfromtimestamp(e).strftime('%Y-%m-%d') # %H:%M:%S ommited
+
+# Gender transforms data into genders (male/female)
+gender = lambda x: "Female" if x == 1 else ("Male" if x == 2 else x)

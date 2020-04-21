@@ -132,4 +132,25 @@ The present document serves as a Project Log. The project is archived in Kaggle 
             * Nonetheless, the disparity of gender ratios within the most important roles in movie production has been noted: female personnel is by far the less numerous.
                 Further studies of this trend may help the visualization of sexual harrasment in the movie industry
     + Random encounters
-        - High number of NaNs in crew df refering to directors and producers columns. SOLVED
+        - High number of NaNs in crew df refering to directors and producers columns.
+
+16/04/2020
+    + Actions taken
+        - New notebook created (fixer-names) in order to fix the gender issue in actors and crew dfs (See above)
+            * New specific function created for that pourpose
+            * New df (dfnu) created for that pourpose
+        - gender_search function added to EDA library (black_library)
+
+21/04/2020
+    + Actions taken
+        - Cleaning process of the actors', producers' and directors' dfs continues.
+            * NaN names seem to point to a foreing (non english-speaking origin)
+                The following courses of action can be pursued:
+                    - Maintain the cleaning process
+                        With a more expansive data base of names and a faster assigment function
+                    - Forgoe the process and work only with english-based data
+                
+                For the moment the first course of action will be pursued.
+        - dfnu df cleaning process has ended.
+    + Random encounters
+        - the gender_search function is unbearable slow. Reason unknonw.
