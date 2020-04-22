@@ -1,7 +1,7 @@
 # Diomedes' EDA Library
 """For Data Visualization and Annalysis pourposes"""
 
-#External library imports.
+# External library imports.
 # %matoplotlib inline #only works in jupyter
 import numpy as np
 import pandas as pd
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn; seaborn.set()
 
 
-#Code
+# Large functions
 def mean_min_max_standard (variable):
     """
     Prints the Average (mean), Min & Max (min, max) and Standard Deviation (standard) of a given vairable.
@@ -184,14 +184,31 @@ def gender_search (df):
 
     print ("Done")
 
-print("Done")
+def df_save (df):
+    """
+                        ---What it does---
+    Saves your df of choice to a .csv file in the same directory of the parent file
 
-# capitalizer (var)
+                        ---What it needs---
+    * Your input for the name (be careful with adding spaces)
+    * Your ready-to-save df
+    """
+    name = input("Type the name of your df> ")
+    name = name + ".csv"
+    df.to_csv(name, sep = ',')
 
-# mean_min_max_standard (variable)
-# percentiles (variable)
-# plotter (variable = heights)
-# popular (df = chipo, item_searched, quantity)
+def null_count (df):
+    """
+                        ---What it does---
+    Identifies and counts the number of null values in any given df. Does not return anything.
+
+                        ---What it needs---
+    A DataFrame
+    """
+    null_in_df = df.isnull().any()
+    is_null = df.isnull().sum()
+    print (f'Presence of null in clolumns:\n{null_in_df}\n\nNumber of null in columns:\n{is_null}')
+
 
 # LAMBDAS
 
