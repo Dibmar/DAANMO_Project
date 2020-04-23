@@ -154,10 +154,3 @@ The present document serves as a Project Log. The project is archived in Kaggle 
         - dfnu df cleaning process has ended.
     + Random encounters
         - the gender_search function is unbearable slow. Reason unknonw.
-
-22/04/2020
-    + Actions taken
-        - df save function created
-            * New dfs to be imported into the cross-indexing df for conclusions
-        - keywords explored and cleaned
-        - df null count function created for faster analysis
