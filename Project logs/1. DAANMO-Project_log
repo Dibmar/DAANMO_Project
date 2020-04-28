@@ -154,3 +154,10 @@ The present document serves as a Project Log. The project is archived in Kaggle 
         - dfnu df cleaning process has ended.
     + Random encounters
         - the gender_search function is unbearable slow. Reason unknonw.
+
+28/04/2020
+    + Actions taken
+        - CREDITS has been fully explored.
+            * A function for the cleaning process has been written. Though slow, it works
+            * For quicker analysis, the cleaned dfs will be stored and then imported in 'cross-indexing' for further analysis
+            * starring_role column created in order to link actors with other relevant information
