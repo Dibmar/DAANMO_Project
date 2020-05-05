@@ -161,3 +161,11 @@ The present document serves as a Project Log. The project is archived in Kaggle 
             * A function for the cleaning process has been written. Though slow, it works
             * For quicker analysis, the cleaned dfs will be stored and then imported in 'cross-indexing' for further analysis
             * starring_role column created in order to link actors with other relevant information
+
+05/05/2020
+    + Actions taken
+        - dfs for future analysis stored (all related to movie_metadata)
+        - Exploration of movie_metadata continues
+        - name_seach fucntion added to black_library
+    + Random encounters
+        - Difficulty in swiching string to datetime in dates df

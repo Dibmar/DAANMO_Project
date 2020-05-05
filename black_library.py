@@ -143,45 +143,27 @@ def time_indexer (df):
     elif t_input == "day":
         df['day'] = df.index.day
 
-def gender_search (df):
+def name_search (df):
     """
                         ---What it does---
-    gender_search goes trough your df 'gender' column and checks the values. If if finds 1, 2 or 0 does the following:
-        * If the value is equal to 1: changes the value to 'Female'
-        * If the value is equal to 2: changes the value to 'Male'
-        * If the value is equal to 0: takes your 'name' column and makes a new variable with the first name, then checks it with it's own DB and changes the value to whatever gender is assinged to it.
-        * None of the above: does nothing, congrats.
-
-    Prints a "Done" when its done.
+    This function searches for values equal to 0 in your df 'gender' column. If it finds them, then compares your df 'name' column of those values with those of dfnu 'name' column. If they mach, the 'gender' value in dfnu is trasnported back to your df.
 
                         ---What it needs---
-    gender_search requires the following:
-        * Your df of choice to change (df)
-                - Your columns SHOULD be named 'name' and 'gender' for it to work
-        * A df of names and their current gender value: 
-                - This df SHOULD be named 'dfnu' (DataFrame Names Unique)
-                - This df SHOULD have it's values filtered through the drop_duplicates method of pandas (keep= whatever you want except false)
+    - A df with a 'name' and 'gender' column
+    - A df for comparison (dfnu) with 'name' and 'gender' column
                         
                         ---Notes---
-    Feel free to add more genders to the mix, but be reminded that you'll need a df that supports it.
+    Feel free to add more genders to the mix, but be reminded that you will need a df that support it
     """
+    name_split = lambda x: list(x.split(' '))[0]                                    # splits the name using splits, taking only the first name
+    
+    df['name2'] = df['name'].apply(name_split)
     for e in df.index:
-        usuario = df.loc[e]
-        gender = usuario['gender']
-        
-        if gender == 0:
-            name = usuario['name'].split(' ')[0]
-            listSerie = dfnu['gender'].loc[dfnu.name == name].unique()
-            if len(listSerie) == 1:
-                df.loc[e, 'gender'] = listSerie[0]
-            else:
-                df.loc[e, 'gender'] = None
-            print(df.loc[e, 'gender'])
-        elif gender == 1:
-            df.loc[e, 'gender'] = 'Male'
-        else:
-            df.loc[e, 'gender'] = "Female"
-
+        name = df['name2'].iloc[e]
+        if df.loc[e, 'gender'] == 0:                 
+            if name in list(dfnu.name): # searches the name in dfnu and overwrites gender when aplicable
+                df.loc[e, 'gender'] = list(dfnu.loc[dfnu['name']== name, 'gender'])[0]
+    del df['name2']
     print ("Done")
 
 def df_save (df):
