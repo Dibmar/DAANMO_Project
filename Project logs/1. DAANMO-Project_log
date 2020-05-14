@@ -173,3 +173,14 @@ The present document serves as a Project Log. The project is archived in Kaggle 
 08/05/2020
     + Actions taken
         - Up to top 5 billing graph added
+
+14/05/2020
+    + Actions taken
+        - cross-indexing notebook:
+            Firs steps taken into the analysis of the actors/directors/producers (participants) data. Including:
+                # The production of a mosaic for more intuitive representation of the gender ratios
+                # The producion of a new csv: genres_unique. This csv will be used to plot the results in graphical format.
+    + Random encounters
+        - genres csv
+            NaN values detected thanks to genres_unique creation. Despite their presece, their impact is minimal. Therefore, no further effort
+            is required.
