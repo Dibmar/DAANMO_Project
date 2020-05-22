@@ -195,3 +195,9 @@ The present document serves as a Project Log. The project is archived in Kaggle 
     + Actions taken
         - cross-indexing notebook:
             Cross-examine function for gender and film genres under construction
+
+22/05/2020
+    + Actions taken
+        - movie_metadata:
+            Clean up process in the profit df has begun, outlier values are being identified and eliminated
+            New function (zscore_nuke) created for this pourpose
