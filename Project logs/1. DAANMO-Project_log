@@ -201,3 +201,10 @@ The present document serves as a Project Log. The project is archived in Kaggle 
         - movie_metadata:
             Clean up process in the profit df has begun, outlier values are being identified and eliminated
             New function (zscore_nuke) created for this pourpose
+
+01/06/2020
+    + Actions taken
+        - cross-indexing notebook
+            cross-examine function droped for complexity. Function splitted into tow sub-fucntions: mixer and analyzer. Mixer function done.
+        - movie_metadata:
+            Clean up process continues
