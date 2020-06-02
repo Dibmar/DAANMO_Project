@@ -208,3 +208,9 @@ The present document serves as a Project Log. The project is archived in Kaggle 
             cross-examine function droped for complexity. Function splitted into tow sub-fucntions: mixer and analyzer. Mixer function done.
         - movie_metadata:
             Clean up process continues
+
+01/06/2020
+    + Actions taken
+        - movie_metadata notebook:
+            profit df cleaned and exported. New cleaned mereged with genres.
+            dates df cleaned and exported. Under annalysis to display average runtime by decade.
