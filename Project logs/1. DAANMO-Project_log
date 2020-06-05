@@ -177,40 +177,48 @@ The present document serves as a Project Log. The project is archived in Kaggle 
 14/05/2020
     + Actions taken
         - cross-indexing notebook:
-            First steps taken into the analysis of the actors/directors/producers (participants) data. Including:
+           * First steps taken into the analysis of the actors/directors/producers (participants) data. Including:
                 # The production of a mosaic for more intuitive representation of the gender ratios
                 # The producion of a new csv: genres_unique. This csv will be used to plot the results in graphical format.
     + Random encounters
         - genres csv
-            NaN values detected thanks to genres_unique creation. Despite their presece, their impact is minimal. Therefore, no further effort
+            * NaN values detected thanks to genres_unique creation. Despite their presece, their impact is minimal. Therefore, no further effort
             is required.
 
 19/05/2020
     + Actions taken
         - cross-indexing notebook:
-            Actors population explored. Huge gender gap revealed as hinted during clean-up.
+            * Actors population explored. Huge gender gap revealed as hinted during clean-up.
             Begining to cross-examine with film genres
 
 20/05/2020
     + Actions taken
         - cross-indexing notebook:
-            Cross-examine function for gender and film genres under construction
+            * Cross-examine function for gender and film genres under construction
 
 22/05/2020
     + Actions taken
         - movie_metadata:
-            Clean up process in the profit df has begun, outlier values are being identified and eliminated
-            New function (zscore_nuke) created for this pourpose
+           * Clean up process in the profit df has begun, outlier values are being identified and eliminated
+           * New function (zscore_nuke) created for this pourpose
 
 01/06/2020
     + Actions taken
         - cross-indexing notebook
-            cross-examine function droped for complexity. Function splitted into tow sub-fucntions: mixer and analyzer. Mixer function done.
+           * cross-examine function droped for complexity. Function splitted into tow sub-fucntions: mixer and analyzer. Mixer function done.
         - movie_metadata:
-            Clean up process continues
+           * Clean up process continues
 
 01/06/2020
     + Actions taken
         - movie_metadata notebook:
             profit df cleaned and exported. New cleaned mereged with genres.
             dates df cleaned and exported. Under annalysis to display average runtime by decade.
+
+05/06/2020
+    + Actions taken
+        - cross-indexing notebook:
+            * corresponder function created. Both functions integrated and ready to go.
+                Actors gender values obtained.
+        - movie_metadata notebook:
+            * Minor adjustmentes in genres and genres_unique dfs
