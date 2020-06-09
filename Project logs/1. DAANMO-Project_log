@@ -222,3 +222,12 @@ The present document serves as a Project Log. The project is archived in Kaggle 
                 Actors gender values obtained.
         - movie_metadata notebook:
             * Minor adjustmentes in genres and genres_unique dfs
+
+09/06/2020
+    + Actions taken
+        - cross-indexing notebook:
+            * Minor adjustments in corresponder function
+            * Gender differences across participants plotted
+                plotter_special function created for easier plotting of barth graphs
+                For the future, need to integrate the plots in a subplot
+                Also, it would be nicer to have them in a population pyramid
