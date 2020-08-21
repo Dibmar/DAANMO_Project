@@ -122,9 +122,9 @@ test()
 ### SPECIFIC TO CREDITS NOTEBOOK
 
 def gender_search (df, df2, col_1, col_2):
-    """
+        """
                         ---What it does---
-    This function searches for values equal to 0 in your df 'gender' column. If it finds them, then compares your df 'name' column of those values with those of dfnu 'name' column. If they mach, the 'gender' value in dfnu is trasnported back to your df.
+    Searches for values equal to 0 in the df gender column and places them into a new df object. Then splits and searches the names of those values in df2. Lastly if it finds them, updates the new df object and merges its values with those of the original df.
 
                         ---What it needs---
     - A df with a 'name' (col_1) and 'gender' (col_2) column or equivalent
@@ -132,13 +132,15 @@ def gender_search (df, df2, col_1, col_2):
     - A df2 for comparison (dfnu) with 'name' and 'gender' column
     """
 
-    for e in df.index:
-        if df.loc[e, col_2] == 0:
-            name = (df[col_1].iloc[e]).split('\s')[0]                
-            if name in list(df2.name):                     # searches the name in df2 and overwrites gender when aplicable
-                df.loc[e, col_2] = list(df2.loc[df2['name']== name, 'gender'])[0]
-                print(list(df2.loc[df2['name']== name, 'gender'])[0])
-    print ("Done")
+    df3 = df.loc[df[col_2] == 0]
+    
+    for e in range(df3.shape[0]):
+        name = (df3[col_1].iloc[e]).split(' ')[0]   
+        
+        if name in list(df2['name']):
+           df3[col_2].iloc[e] = list(df2.loc[df2['name'] == name, 'gender'])[0]
+
+    df.loc[df[col_2] == 0] = df3
 
 def credits_cleaner (df, col_1, col_list, cond_list):
     """
@@ -202,7 +204,17 @@ def actor_separator (df, col_list):
     df_new = pd.DataFrame({col_list[0] : value_1_col, col_list[1] : value_2_col, col_list[2] : value_3_col, col_list[3] : value_4_col})
     return df_new
 
-###
+def crew_cleaner (df, role_name, function, condition_list):
+
+    condition_1_extractor = lambda x: [i[condition_list[0]] for i in x if i['department'] == function]
+    condition_2_extractor = lambda x: [i[condition_list[1]] for i in x if i['department'] == function]
+
+    col_name_1 = f'{role_name}_{condition_list[0]}'
+    col_name_2 = f'{role_name}_{condition_list[1]}'
+
+    df[col_name_1] = df.loc[:, 'crew'].apply(condition_1_extractor)
+    df[col_name_2] = df.loc[:, 'crew'].apply(condition_2_extractor)
+### ----------------------------------
 
                                     # LAMBDAS
 
