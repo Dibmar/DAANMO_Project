@@ -119,10 +119,57 @@ def test():
     print('EDA lib ready')
 test()
 
+def from_list_to_single (df, col_1, col_2):
+    """
+    ---What it does---
+    Takes the elements embeded into a list within a df object and creates a single column df using those elements.
+    ---What it needs---
+        - A df object (df)
+        - The name of the column containing the data (col_1) MUST contain lists for it to work properly.
+        - Name of the new column for the new df (col_2)
+    ---What it returns---
+    A single column df with the separated data (df2)
+    """
+    df_copy = df[col_1].copy()
+    df_copy = df_copy.dropna()
+    
+    a_list = []
+
+    for e in df_copy:
+        for i in e:
+            a_list.append(i)
+    
+    df2 = pd.DataFrame({col_2: a_list}).drop_duplicates(keep='first')
+    df2 = df2.reset_index(drop = True)
+    return df2
+
+def zscore_nuke (df, column1, column2, threshold = 3):
+    """
+                        ---What it does---
+    This function will add a zscore column to the df of choice, then loc the values that are bellow the threshold (3) and store them in a new df object. Lastly, the zscore columns will be droped.
+
+    It only does it with 2 columns at the moment.
+
+                        ---What it needs---
+    -A df object
+    -A value for threshold. Set to 3 as default.
+    """
+    
+    df['column1_zscore'] = np.abs(stats.zscore(df[column1]))
+
+    df['column2_zscore'] = np.abs(stats.zscore(df[column2]))
+
+    df2 = df[(df.column1_zscore <= threshold) & (df.column2_zscore <= threshold)]
+
+    df = df.drop(['column1_zscore', 'column2_zscore'], axis=1)
+    df2 = df2.drop(['column1_zscore', 'column2_zscore'], axis=1)
+
+    return df2
+
 ### SPECIFIC TO CREDITS NOTEBOOK
 
 def gender_search (df, df2, col_1, col_2):
-        """
+    """
                         ---What it does---
     Searches for values equal to 0 in the df gender column and places them into a new df object. Then splits and searches the names of those values in df2. Lastly if it finds them, updates the new df object and merges its values with those of the original df.
 
@@ -132,7 +179,7 @@ def gender_search (df, df2, col_1, col_2):
     - A df2 for comparison (dfnu) with 'name' and 'gender' column
     """
 
-    df3 = df.loc[df[col_2] == 0]
+    df3 = df.loc[df[col_2] == 0]   
     
     for e in range(df3.shape[0]):
         name = (df3[col_1].iloc[e]).split(' ')[0]   
@@ -214,12 +261,60 @@ def crew_cleaner (df, role_name, function, condition_list):
 
     df[col_name_1] = df.loc[:, 'crew'].apply(condition_1_extractor)
     df[col_name_2] = df.loc[:, 'crew'].apply(condition_2_extractor)
+
+### SPECIFIC TO MOVIE-METADATA NOTEBOOK
+def genre_counter (df, df2, col1):
+    """
+                        ---What it does---
+    Counts the number of times the film genres appears in the df, and stores them into a new df object.
+                        
+                        ---What it needs---
+        - A df object with the column to be counted (df)
+        - A df object to be clone with the data to be searched in df (df2)
+        - col1 the name of the column to be seached. It MUST be named the same in both dfs
+                        ---What it returns---
+    A new df (df3) with the counts stored in a new column called 'counts'.
+    """
+    df3 = df2.copy()
+    df3.insert(df3.shape[1], 'counts', 0)
+    for e in df[col1]:
+        for i in list(e):
+            if i in list(df3[col1]):
+                df3['counts'].loc[df3[col1] == i] +=  1
+            else:
+                pass
+    df3 = pd.DataFrame(df3)
+    return df3
+
+def single_condition_separator (df, col_list, col_search, cond_1):
+    """
+    ---What it does---
+    Separates the lists of countries in a production from the container and stores them in a new df in list format.
+    ---What it needs---
+        - A df object (df) with a json column to be extracted
+        - A list of columns to construct the new df with (col_list).ç
+        - The column to be searched (col_search)
+        - A condition for separation (cond_1)
+    ---What it returns---
+    A df object (df3)
+
+    """
+    
+    df2 = df.copy()
+    df3 = df2[col_list]
+
+    df3[col_list[1]] = df3[col_list[1]].fillna('[]').apply(literal_eval).apply(lambda x: [i[cond_1] for i in x] if isinstance(x, list) else [])
+    return df3
+
+
 ### ----------------------------------
 
                                     # LAMBDAS
 
 # Gender transforms data into genders (male/female)
 gender = lambda x: "Female" if x == 1 else ("Male" if x == 2 else x)
+
+rounder = lambda x: round(x)
 
                                     # GRÁFICOS
 

@@ -254,3 +254,10 @@ The present document serves as a Project Log. The project is archived in Kaggle 
     + Actions taken
         - credits notebook:
             * Major clean up for better presentation and efficiency FINISHED
+
+04/09/2020
+    + Actions taken
+        - movie_metadata notebook:
+            * Major clean up for better presentation and efficiency FINISHED
+        - EDA library:
+            * Minor functions added
