@@ -382,6 +382,106 @@ def gender_for_name (df):
     df['name'] = df['name'].apply(capper)
     df['name'] = df['name'].drop_duplicates(keep = 'first')
 
+### SPECIFIC TO CROSS-INDEXING NOTEBOOK
+def mixer (gender_df, genre_df):
+    """
+                        ---What it does---
+    Takes the dfs provided and right-merges them based on the 'id' column. Then it counts and creates a new df with the gender count of the gender_df ('Male' and 'Female' values currently accounted for) and assings it to whatever film genre(s) the 'id' column was assigned to.
+                        ---What it needs---
+    This function needs:
+        - A df object with 'id' and 'gender' columns named as shown here
+            + The 'gender' column should contain 'Male' and 'Female' strings.
+        - A df object with 'id' and 'genre' columns named as shown here
+            + This df can contain embeded lists
+                        ---What it returns---
+    A new df object with the following columns:
+        - genre: a list of chain strings containing one or more film genre (obj, list)
+        - male_counts: number of male participants (int)
+        - female_counts: number of female participants (int)
+    """
+
+    # Merging of dfs
+    df3 = pd.merge(gender_df, genre_df, on='id', how='right')
+
+    # Lists creation and gender and genre search
+    genre_2 = []
+    gender_2 = []
+
+    for e in range(len(df3.index)):
+        gend = df3.loc[e,'gender']    
+        gen = df3.loc[e,'genre']
+        if type(gen) == list:                   # If gen is an object, it is broken into multiple elements
+            for n in gen:
+                genre_2.append(n)
+                gender_2.append(gend)
+                
+        else:
+            genre_2.append(gen)
+            gender_2.append(gend)
+    
+    # df4 creation, reindexing and generation of lists in genres       
+    df4 = pd.DataFrame({'genre': genre_2, 'gender': gender_2})
+    df4['male_counts'] = (df4.gender == 'Male').astype(np.int_)
+    df4['female_counts'] = (df4.gender == 'Female').astype(np.int_)
+    df4 =df4.drop('gender', axis = 1)
+    
+    df4 = df4.groupby('genre')['male_counts', 'female_counts'].sum()
+    
+    df4 = df4.reset_index()
+    df4['genre'] = df4['genre'].str.split(', ')
+
+    return df4
+
+def corresponder (gender_genre, genre_df):
+    """
+                        ---What it does--
+    Takes two df objects and seeks the film genres contained in the first (gender_genre) in the second df (a copy of genre_df). If it finds a match, takes the gender values of the first df and plugs it into the second. This is done in for loops in order to keep an accurate gender count.
+                        ---What it needs---
+    Two df objects with the following columns:
+        - gender_genre:
+            + genre (list)
+            + male/female_values (both must be int)
+        - genre_df
+            + Genre (string)
+                        ---What it returns---
+    A copy of genre_df with the sum of the gender values of all the correspondant film genres. This is displayed in three columns (Genre, male/ female_values)
+    """
+
+    # copy of genre_df for safekeeping
+    genre_df_copy = genre_df.copy()
+    genre_df_copy.insert(1, 'male_counts', 0)
+    genre_df_copy.insert(2, 'female_counts', 0)
+
+    for e in range(len(gender_genre.genre)):
+        genre_list = gender_genre.genre[e]
+        if len(genre_list) == 1:
+            if genre_list[0] in list(genre_df.genre):
+                male_values = gender_genre.male_counts.loc[e]                                           # Male counts in gender_genre
+                female_values = gender_genre.female_counts.loc[e]                                       # Female counts in gender_genre
+                genre_key = list(genre_df.genre.loc[genre_df.genre == genre_list[0]])[0]                # Genre in genre_df
+                
+                what_was_male = genre_df_copy.male_counts.loc[genre_df_copy.genre == genre_key]         # For easier reading    
+                what_was_female = genre_df_copy.female_counts.loc[genre_df_copy.genre == genre_key] 
+
+                genre_df_copy.male_counts.loc[genre_df_copy.genre == genre_key] = what_was_male + male_values
+                genre_df_copy.female_counts.loc[genre_df_copy.genre == genre_key] = + female_values
+
+        else:
+            for a in range(len(genre_list)):
+               if genre_list[a] in list(genre_df.genre):
+                    genre_key = list(genre_df.genre.loc[genre_df.genre == genre_list[a]])[0]
+                    male_values = gender_genre.male_counts.loc[e]                                       # Male counts in gender_genre
+                    female_values = gender_genre.female_counts.loc[e]                                   # Female counts in gender_genre
+                    genre_key = dict(genre_df.genre.loc[genre_df.genre == genre_list[a]]).values()      # Genre in genre_df
+
+                    what_was_male = genre_df_copy.male_counts.loc[genre_df_copy.genre == genre_key] 
+                    what_was_male = genre_df_copy.female_counts.loc[genre_df_copy.genre == genre_key]
+                    
+                    genre_df_copy.male_counts.loc[genre_df_copy.genre == genre_key] = what_was_male + male_values
+                    genre_df_copy.female_counts.loc[genre_df_copy.genre == genre_key] = what_was_female + female_values
+                    
+    return genre_df_copy
+
 ### ----------------------------------
 
                                     # LAMBDAS
@@ -393,7 +493,7 @@ rounder = lambda x: round(x)
 
 todatetime = lambda e: datetime.utcfromtimestamp(e).strftime('%Y-%m-%d') # %H:%M:%S ommited
 
-                                    # GRÁFICOS
+                                    # GRAPHICS
 
 def plot_bar(df_column, save_image = 0):
     """
@@ -458,3 +558,43 @@ def plot_pie(df_column, save_image = 0):
             plt.savefig(name)
     else:
         print ("No numeric data to plot")
+
+def plotter_special (df, col_1, col_2, col_3, save = 0):
+    """
+                        ---What it does---
+    Plots a barth plot of a df, sorting firts by col_2 then by col_3. If desired, saves the plot
+
+                        ---What it needs---
+    - A df object with numerical values in columns 2 & 3
+    - A column to be placed in y axis (col_1)
+    - Value 1 to sort and plot (col_2), in column format
+    - Value 2 to sort and plot (col_3), in column format
+    - If you want to save plot, change save value to anything than 0.and
+
+                        ---What it stores---
+    A .png file if desired.
+    """
+
+    df = df.sort_values(ascending= False, by= [col_2, col_3])
+    
+    objects = df[col_1]
+    labels = [col_2.title(), col_3.title()] 
+    data = list(df[col_2])
+    data2 = list(df[col_3])
+    y_pos = range(len(objects))
+
+    # Creating the plots
+    plt.barh(y_pos, data, align='center', alpha=0.9, color= 'orange')
+    plt.barh(y_pos, data2, align='center', alpha=0.75, color= 'blue')
+    plt.yticks(y_pos, objects, fontsize=10)
+
+
+    # Cretaing labels and titles
+    plt.legend(labels, loc= 'best')
+
+    if save != 0:
+        print ('Saving as .png')
+        name = input('Type the name of the plot: ')
+        plt.savefig(name + '.png')
+
+    plt.show()
