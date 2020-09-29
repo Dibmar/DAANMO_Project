@@ -482,6 +482,69 @@ def corresponder (gender_genre, genre_df):
                     
     return genre_df_copy
 
+def packer_preparer (df, df2):
+    """
+                        ---What it does---
+    This function mixes the release date, runtime and gender ratios of a given movie. Letting us see how the evolution of gender representation has evolved over time. And also where do we find a more equal gender representation when talking about runtime.
+    
+    1st) The function agregates all gender values in a df object (packer function)
+    2nd) Crosses the id values associated and merges it with the df containing the dates (preparer function)
+
+    All dfs are copied to ensure data integrity
+                        
+                        ---What it needs---
+    - A df object with columns 'id' and 'gender' (df). The columns MUST have those names.
+    - A df object with an 'id' to be merged with (df2). The column MUST have that name.
+                        
+                        ---What it returns---
+    A df object (df_definitive)
+    """
+
+    def packer (df):
+        """
+        Creates the df object with the gender values and returns them
+        """
+        df_copy = df.copy() 
+        gender_counts = df_copy.groupby(by='id', sort = False, group_keys= False)['gender'].value_counts()
+
+        df_gender = pd.DataFrame(data = gender_counts)
+        df_gender.columns = ['gender_counts']
+        df_gender.reset_index(level=['gender'], col_level=1, inplace = True)  
+
+        return df_gender
+    
+
+    def preparer (df_preliminary, df2):
+        """
+        Merges the 2 dfs ands returns a third one
+        """
+
+        df2_copy = df2.copy()
+        df2_copy = df2_copy.dropna()
+        
+        df_pre = df_preliminary.copy()
+
+        mal_counts = df_pre.loc[df_pre['gender'] == 'Male']
+        fem_counts = df_pre.loc[df_pre['gender'] == 'Female']
+        
+        mal_counts['male_counts'] = mal_counts['gender_counts']
+        fem_counts['female_counts'] = fem_counts['gender_counts']
+        mal_counts = mal_counts.dropna(axis = 0)
+        fem_counts = fem_counts.dropna(axis = 0)
+        
+
+        df_final = df2_copy.merge(mal_counts['male_counts'], left_on='id', right_on='id')
+        df_final = df_final.merge(fem_counts['female_counts'], left_on='id', right_on='id')
+        df_final = df_final.fillna(0)
+
+        return df_final
+    
+    df_preliminary = packer (df)
+    df_definitive = preparer (df_preliminary, df2)
+    
+    return df_definitive
+
+
 ### ----------------------------------
 
                                     # LAMBDAS
