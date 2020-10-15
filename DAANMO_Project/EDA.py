@@ -544,6 +544,35 @@ def packer_preparer (df, df2):
     
     return df_definitive
 
+def plotter_by_decade (df, col_list, condition = 'decade'):
+    """
+                        ---What it does---
+    Creates a new df for easier plotting with all the relevant date grouped by decade. A copy is made of the original for data safekeeping.
+                        ---What it needs---
+    - A df object to group (df)
+    - A list of colums that will be kept (col_list)
+    - A column name for grouping. 'decade' by default (condition)
+                        ---What it returns---
+    A df object (df_2)
+    """
+    df_2 = df.copy()
+    dtype = df_2.release_date.dtype
+    if dtype == 'O':
+        year = df_2['release_date'].str.split(pat="-")
+        year_list = []
+        for e in year:
+            years = e[0]
+            year_list.append(years)
+        df_2['decade'] = year_list
+
+    df_2['decade'] = df_2['decade'].astype('int64')
+    df_2['decade'] = (df_2['decade'] // 10) * 10
+
+    df_2 = df_2[col_list]
+    df_2 = df_2.groupby(condition).sum()
+    df_2 = df_2.reset_index()
+    return df_2
+
 
 ### ----------------------------------
 
@@ -659,5 +688,49 @@ def plotter_special (df, col_1, col_2, col_3, save = 0):
         print ('Saving as .png')
         name = input('Type the name of the plot: ')
         plt.savefig(name + '.png')
+
+    plt.show()
+
+def population_pyramid_plotter (df, col_1, col_2, col_3, population):
+    """
+    ---What it does---
+    Creates a population pyramid graph.
+    ---What it needs---
+        - A df object to plot (df)
+        - A column to place on Y axis (preferably dates) (col_1)
+        - A column representing the MALE population (col_2)
+        - A column representing the FEMALE population (col_3)
+        - A string to represent the population (population)
+    ---What it shows---
+    A pyramid graph
+    """
+    
+    # Generating data
+    objects = df[col_1]                                 # Labels on Y axis
+    y_pos = np.arange(len(objects))
+    data = df[col_2]                                    # MALE population
+    data2 = df[col_3]                                   # FEMALE population
+    labels= ['male', 'female']
+
+
+    if data.max() > data2.max():                        # Scaler
+        width = data.max() + (data.max()/8) 
+    else:
+        width = data2.max() + (data.max()/8)
+
+    # Generating plots
+    fig, axes = plt.subplots(ncols=2, sharey=True)
+    axes[0].set_xlim(0, width)
+    axes[1].set_xlim(0, width)
+    axes[0].barh(y_pos, data, align='center', alpha=0.9, color= 'darkred')
+    axes[1].barh(y_pos, data2, align='center', alpha=0.75, color= 'darkgreen')
+    axes[0].invert_xaxis()                              # Inversion of axis to create pyramid
+    axes[1].xaxis.grid()
+    axes[0].xaxis.grid()
+    
+    # Generating labels
+    plt.yticks(y_pos, objects, fontsize=10)
+    fig.suptitle(f'Difference in the male/female {population} population', fontsize=15) # 'population' goes here
+    fig.legend(labels, loc= 'lower center', bbox_to_anchor=(0.75,0.1))
 
     plt.show()

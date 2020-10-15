@@ -281,3 +281,9 @@ The present document serves as a Project Log. The project is archived in Kaggle 
         - cross-indexing:
 		    * EDA project being explored. Ready for a plotting of gender-ratio evolution in cinema across its history
             * packer_preparer fucntion added to EDA library
+
+23/09/2020
+    + Actions taken
+        - cross-indexing:
+		    * EDA project being explored. Plotting of gender-ratio evolution in cinema across history FINISHED
+            * stage 1 and 2 of notebook (mixer and corresponder function) are too slow. Under optimization
