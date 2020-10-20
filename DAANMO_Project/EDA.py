@@ -383,109 +383,73 @@ def gender_for_name (df):
     df['name'] = df['name'].drop_duplicates(keep = 'first')
 
 ### SPECIFIC TO CROSS-INDEXING NOTEBOOK
-def mixer (gender_df, genre_df):
+def genre_corresponder (df, df_genres):
     """
-                        ---What it does---
-    Takes the dfs provided and right-merges them based on the 'id' column. Then it counts and creates a new df with the gender count of the gender_df ('Male' and 'Female' values currently accounted for) and assings it to whatever film genre(s) the 'id' column was assigned to.
-                        ---What it needs---
-    This function needs:
-        - A df object with 'id' and 'gender' columns named as shown here
-            + The 'gender' column should contain 'Male' and 'Female' strings.
-        - A df object with 'id' and 'genre' columns named as shown here
-            + This df can contain embeded lists
-                        ---What it returns---
-    A new df object with the following columns:
-        - genre: a list of chain strings containing one or more film genre (obj, list)
-        - male_counts: number of male participants (int)
-        - female_counts: number of female participants (int)
+    ---What it does---
+    This function creates a dataframe that relates a count of the number of male and female actors in any of the given film genres identified.
+    It must be said that because any given film genre has more than one film genre, the count is done multiple times in order to condense the population.
+    ---What it needs---
+        - A df object with the following columns (df):
+            * id
+            * gender (values must be 'Male' and 'Female')
+        - A df object with the following columns (df_genres):
+            * id
+            * genre
+    ---What it returns---
+    A df object with columns named 'genre', 'male_counts' and 'female_counts'
     """
+    def gender_mixer (df, df_genres):
+        df_genres_c = df_genres.copy()
+        df_male = df[['id', 'gender']].loc[df['gender'] == 'Male']
+        df_female = df[['id', 'gender']].loc[df['gender'] == 'Female']
+        
+        df_male = df_male.groupby(by='id', sort = False, group_keys= False)['gender'].value_counts()
+        df_female = df_female.groupby(by='id', sort = False, group_keys= False)['gender'].value_counts()
 
-    # Merging of dfs
-    df3 = pd.merge(gender_df, genre_df, on='id', how='right')
-
-    # Lists creation and gender and genre search
-    genre_2 = []
-    gender_2 = []
-
-    for e in range(len(df3.index)):
-        gend = df3.loc[e,'gender']    
-        gen = df3.loc[e,'genre']
-        if type(gen) == list:                   # If gen is an object, it is broken into multiple elements
-            for n in gen:
-                genre_2.append(n)
-                gender_2.append(gend)
-                
-        else:
-            genre_2.append(gen)
-            gender_2.append(gend)
+        new_df = pd.merge(left = df_male, right = df_female, how = "outer", on = 'id')
+        new_df = new_df.reset_index()
+        new_df.columns = ['id', 'male_counts', 'female_counts']
+        new_df = new_df.fillna(0)
+        final_df = df_genres_c.merge(new_df, left_on='id', right_on='id')
+        final_df = final_df.groupby('genre')['male_counts', 'female_counts'].sum()
+        final_df = final_df.reset_index()
+        return final_df
     
-    # df4 creation, reindexing and generation of lists in genres       
-    df4 = pd.DataFrame({'genre': genre_2, 'gender': gender_2})
-    df4['male_counts'] = (df4.gender == 'Male').astype(np.int_)
-    df4['female_counts'] = (df4.gender == 'Female').astype(np.int_)
-    df4 =df4.drop('gender', axis = 1)
+    def genre_mixer(first):
+        
+        first['genre'] = first['genre'].str.split(", ")
+
+        genre_list = []
+        male_list = []
+        female_list = []
+        
+        for e in first.index:
+            for i in first['genre'][e]:
+                genre_list.append(i)
+                male_list.append(first['male_counts'][e])
+                female_list.append(first['female_counts'][e])
+        
+        second = pd.DataFrame(list(zip(genre_list, male_list,female_list)), columns=['genre', 'male_counts', 'female_counts'])
+        second = second.groupby('genre').sum()
+        
+        second['male_counts'] = second['male_counts'].astype('int64')
+        second['female_counts'] = second['female_counts'].astype('int64')
+        second = second.reset_index()
+        second = second.sort_values(by=['male_counts', 'female_counts'], ascending = False)
+
+        return second
     
-    df4 = df4.groupby('genre')['male_counts', 'female_counts'].sum()
-    
-    df4 = df4.reset_index()
-    df4['genre'] = df4['genre'].str.split(', ')
+    first = gender_mixer(df, df_genres)
+    second = genre_mixer(first)
 
-    return df4
-
-def corresponder (gender_genre, genre_df):
-    """
-                        ---What it does--
-    Takes two df objects and seeks the film genres contained in the first (gender_genre) in the second df (a copy of genre_df). If it finds a match, takes the gender values of the first df and plugs it into the second. This is done in for loops in order to keep an accurate gender count.
-                        ---What it needs---
-    Two df objects with the following columns:
-        - gender_genre:
-            + genre (list)
-            + male/female_values (both must be int)
-        - genre_df
-            + Genre (string)
-                        ---What it returns---
-    A copy of genre_df with the sum of the gender values of all the correspondant film genres. This is displayed in three columns (Genre, male/ female_values)
-    """
-
-    # copy of genre_df for safekeeping
-    genre_df_copy = genre_df.copy()
-    genre_df_copy.insert(1, 'male_counts', 0)
-    genre_df_copy.insert(2, 'female_counts', 0)
-
-    for e in range(len(gender_genre.genre)):
-        genre_list = gender_genre.genre[e]
-        if len(genre_list) == 1:
-            if genre_list[0] in list(genre_df.genre):
-                male_values = gender_genre.male_counts.loc[e]                                           # Male counts in gender_genre
-                female_values = gender_genre.female_counts.loc[e]                                       # Female counts in gender_genre
-                genre_key = list(genre_df.genre.loc[genre_df.genre == genre_list[0]])[0]                # Genre in genre_df
-                
-                what_was_male = genre_df_copy.male_counts.loc[genre_df_copy.genre == genre_key]         # For easier reading    
-                what_was_female = genre_df_copy.female_counts.loc[genre_df_copy.genre == genre_key] 
-
-                genre_df_copy.male_counts.loc[genre_df_copy.genre == genre_key] = what_was_male + male_values
-                genre_df_copy.female_counts.loc[genre_df_copy.genre == genre_key] = + female_values
-
-        else:
-            for a in range(len(genre_list)):
-               if genre_list[a] in list(genre_df.genre):
-                    genre_key = list(genre_df.genre.loc[genre_df.genre == genre_list[a]])[0]
-                    male_values = gender_genre.male_counts.loc[e]                                       # Male counts in gender_genre
-                    female_values = gender_genre.female_counts.loc[e]                                   # Female counts in gender_genre
-                    genre_key = dict(genre_df.genre.loc[genre_df.genre == genre_list[a]]).values()      # Genre in genre_df
-
-                    what_was_male = genre_df_copy.male_counts.loc[genre_df_copy.genre == genre_key] 
-                    what_was_male = genre_df_copy.female_counts.loc[genre_df_copy.genre == genre_key]
-                    
-                    genre_df_copy.male_counts.loc[genre_df_copy.genre == genre_key] = what_was_male + male_values
-                    genre_df_copy.female_counts.loc[genre_df_copy.genre == genre_key] = what_was_female + female_values
-                    
-    return genre_df_copy
+    return second
 
 def packer_preparer (df, df2):
     """
                         ---What it does---
-    This function mixes the release date, runtime and gender ratios of a given movie. Letting us see how the evolution of gender representation has evolved over time. And also where do we find a more equal gender representation when talking about runtime.
+    This function mixes the release date, runtime and gender ratios of a given movie.
+    Letting us see how the evolution of gender representation has evolved over time.
+    And also where do we find a more equal gender representation when talking about runtime.
     
     1st) The function agregates all gender values in a df object (packer function)
     2nd) Crosses the id values associated and merges it with the df containing the dates (preparer function)
