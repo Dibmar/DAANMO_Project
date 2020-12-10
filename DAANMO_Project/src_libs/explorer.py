@@ -1,6 +1,12 @@
 import pandas as pd
 import numpy as np
+import sys, os
 
+CURR_DIR = os.path.dirname(os.path.abspath(__file__))
+print(CURR_DIR)
+sys.path.append(CURR_DIR)
+# for path in sys.path:
+    # print(path)
 
 def null_count (df):
     """
