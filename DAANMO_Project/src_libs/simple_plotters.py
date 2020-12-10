@@ -1,13 +1,25 @@
-# LIBRARIES
+# SIMPLE PLOTTER
 
-# Data and special
+# Libraries
 import numpy as np
 import pandas as pd
 from datetime import date
+import sys, os
 
 # Plotting libraries
 import matplotlib.pyplot as plt
 
+
+helpful_reminder = ("""
+                        ---POURPOSE---
+This library is aimed towards plotting graphics using matplotlib.
+
+                        ---IT USES---
+    - pandas as pd
+    - numpy as np
+    - matplotlib as plt
+    - sys, os -> for adding the path to path directory
+""")
 
 # FUNCTIONS
 

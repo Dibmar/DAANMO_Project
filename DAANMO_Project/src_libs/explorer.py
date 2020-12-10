@@ -1,12 +1,40 @@
+# EXPLORER
+
+# Libraries
 import pandas as pd
 import numpy as np
 import sys, os
 
-CURR_DIR = os.path.dirname(os.path.abspath(__file__))
-print(CURR_DIR)
-sys.path.append(CURR_DIR)
-# for path in sys.path:
-    # print(path)
+helpful_reminder = ("""
+                        ---POURPOSE---
+This library is aimed towards general EDA.
+
+                        ---IT USES---
+    - pandas as pd
+    - numpy as np
+    - sys, os -> for adding the path to path directory
+""")
+
+
+# FUNCTIONS
+
+def add_to_my_path_dir ():
+    """
+    TODO
+                        ---What it does---
+    This function adds the libraries current path to your pc path directory.
+
+                        ---What it needs---
+    - 
+    
+                        ---What it returns---
+    This function does not return anything
+    """
+    CURR_DIR = os.path.dirname(os.path.abspath(__file__))
+    print(CURR_DIR)
+    sys.path.append(CURR_DIR)
+    for path in sys.path:
+        print(path)
 
 def null_count (df):
     """
