@@ -8,6 +8,7 @@ import pandas as pd
 import json
 import sys, os
 from datetime import date
+from datetime import datetime
 
 helpful_reminder = ("""
                         ---POURPOSE---
@@ -41,26 +42,31 @@ def add_to_my_path_dir ():
         print(path)
 
 
-def get_json (url):
+def get_json (url, path, name = 'DEFAULT_NAME'):
     """
-    TODO
                         ---What it does---
     This function downloads a given json file from a url using the requests.get() method. Then returns the json loaded
                         
                         ---What it needs---
         - A url to search. Must be in string format(url)
+        - The path to your desired output folder (path). It must be a string sepparated by double bars ('\\') thusly:
+            E g. 'C:your\\full\\path\\here'
+        - The name of the output file. It will concated with current date and time (name). By default: DEFAULT_NAME
                         
                         ---What it returns---
     The returned file (json_file)
     """
+
     hunted_file = requests.get(url='http://data.nba.net/prod/v2/2018/teams.json')
     json_file = json.loads(hunted_file.text)
 
-    with open('gimmie.json', 'w+') as outfile:
+
+    today = date.today()
+    now = datetime.now().strftime("%H-%M-%S")
+
+    with open(os.path.join(f'{path}', f'{name}_{now}_{today}.json'), 'w+') as outfile:
         json.dump(json_file, outfile)
 
-    path = os.path.dirname(os.path.realpath(__file__))
-    outfile = os.path.join(path, outfile)
 
     outfile.close()
 
@@ -142,6 +148,3 @@ def csv_opener_from_path (path, sep= ','):
 
 
 print('Library ready!')
-
-the_file = get_json('http://data.nba.net/prod/v2/2018/teams.json')
-print(the_file)
