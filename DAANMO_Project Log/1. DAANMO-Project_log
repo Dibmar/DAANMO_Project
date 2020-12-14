@@ -293,3 +293,31 @@ The present document serves as a Project Log. The project is archived in Kaggle 
         - cross-indexing:
             * Optimization for stage 1&2 FINISHED.
             * genre_corresponder function added to EDA library
+
+14/12/2020
+    + Actions taken
+        - General:
+            * src_libs (folder)
+                - File __init__.py has been created for better importation of libraries
+                - EDA library has been splitted into smaller ones:
+                    credit_funcs
+                    data_hunter
+                    dfnu_funcs
+                    keywords_funcs
+                    movie_meta_funcs
+                    
+                    ^_ Especific for each csv. Many more may come.
+                    data_hunter: for data importation/wrangling
+                        - functions for csvs and json
+                    explorer: general EDA
+                    simple_plotters: for data visualization
+            
+            * operations (folder)
+                - For cleaning and processing of csv in semy-automatic form. Every file contained here refers to one of the project and MUST:
+                    Be capable of both generating the necessary graphics if needed and cleaning, processing and saving the csv file.
+
+                    Files contained (Currently):
+                        - credits_cleaner.py
+                        - name_fixer_gen.py
+            
+            * All notebooks will be used as blueprints for either (or both) graphics and pdfs for final reporting.
