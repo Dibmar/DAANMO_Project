@@ -2,9 +2,12 @@
 
 # Libraries
 import webbrowser
+import requests
 from pathlib import Path
 import pandas as pd
+import json
 import sys, os
+from datetime import date
 
 helpful_reminder = ("""
                         ---POURPOSE---
@@ -12,6 +15,7 @@ This library is aimed towards the extraction of csvs from different sources. Als
 
                         ---IT USES---
     - pandas as pd
+    - json
     - webbrowser
     - Path from pathlib
     - sys, os
@@ -35,6 +39,33 @@ def add_to_my_path_dir ():
     sys.path.append(CURR_DIR)
     for path in sys.path:
         print(path)
+
+
+def get_json (url):
+    """
+    TODO
+                        ---What it does---
+    This function downloads a given json file from a url using the requests.get() method. Then returns the json loaded
+                        
+                        ---What it needs---
+        - A url to search. Must be in string format(url)
+                        
+                        ---What it returns---
+    The returned file (json_file)
+    """
+    hunted_file = requests.get(url='http://data.nba.net/prod/v2/2018/teams.json')
+    json_file = json.loads(hunted_file.text)
+
+    with open('gimmie.json', 'w+') as outfile:
+        json.dump(json_file, outfile)
+
+    path = os.path.dirname(os.path.realpath(__file__))
+    outfile = os.path.join(path, outfile)
+
+    outfile.close()
+
+    return json_file
+
 
 
 def open_a_tab (url, browser):
@@ -111,3 +142,6 @@ def csv_opener_from_path (path, sep= ','):
 
 
 print('Library ready!')
+
+the_file = get_json('http://data.nba.net/prod/v2/2018/teams.json')
+print(the_file)
