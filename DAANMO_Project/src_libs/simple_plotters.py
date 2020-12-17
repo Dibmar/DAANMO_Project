@@ -19,6 +19,7 @@ This library is aimed towards plotting graphics using matplotlib.
     - numpy as np
     - matplotlib as plt
     - sys, os -> for adding the path to path directory
+    - date from datetime
 """)
 
 # FUNCTIONS
@@ -32,8 +33,10 @@ def plot_bar(df_column, save_image = 0):
                         ---What it returns---
     If desired (save_image != 0), a jpg image file in the same directory using "<current date>_barplot.jpg" as name.
     """
+
     if df_column.sum() > 0:
         df_column.plot(kind = 'bar')
+
         if save_image != 0:
             name = str(date.today()) + '_barplot.jpg'
             plt.savefig(name)
@@ -49,8 +52,10 @@ def plot_line(df_column, save_image = 0):
                         ---What it returns---
     If desired (save_image != 0), a jpg image file in the same directory using "<current date>_lineplot.jpg" as name.
     """
+
     if df_column.sum() > 0:
         df_column.plot()
+
         if save_image != 0:
             name = str(date.today()) + '_lineplot.jpg'
             plt.savefig(name)
@@ -66,8 +71,10 @@ def plot_pie(df_column, save_image = 0):
                         ---What it returns---
     If desired (save_image != 0), a jpg image file in the same directory using "<current date>_pieplot.jpg" as name.
     """
+
     if df_column.sum() > 0:
         data = df_column
+
         # Create lables
         labels = dict(df_column).keys()
 
@@ -107,8 +114,10 @@ def plotter_special (df, col_1, col_2, col_3, save = 0):
     
     objects = df[col_1]
     labels = [col_2.title(), col_3.title()] 
+
     data = list(df[col_2])
     data2 = list(df[col_3])
+
     y_pos = range(len(objects))
 
     # Creating the plots
@@ -144,6 +153,7 @@ def population_pyramid_plotter (df, col_1, col_2, col_3, population):
     # Generating data
     objects = df[col_1]                                 # Labels on Y axis
     y_pos = np.arange(len(objects))
+
     data = df[col_2]                                    # MALE population
     data2 = df[col_3]                                   # FEMALE population
     labels= ['male', 'female']
@@ -158,10 +168,13 @@ def population_pyramid_plotter (df, col_1, col_2, col_3, population):
     fig, axes = plt.subplots(ncols=2, sharey=True)
     axes[0].set_xlim(0, width)
     axes[1].set_xlim(0, width)
+
     axes[0].barh(y_pos, data, align='center', alpha=0.9, color= 'darkred')
     axes[1].barh(y_pos, data2, align='center', alpha=0.75, color= 'darkgreen')
+    
     axes[0].invert_xaxis()                              # Inversion of axis to create pyramid
     axes[1].xaxis.grid()
+    
     axes[0].xaxis.grid()
     
     # Generating labels

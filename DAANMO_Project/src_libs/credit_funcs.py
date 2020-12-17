@@ -87,11 +87,11 @@ def json_extractor (df, column, source, role_name, condition_list, function):
     if type(condition_list) ==  list:
 
         for condition in condition_list:
-            colum_name = f'{role_name}_{condition}'
+            colum_name = f'{condition}'
             df[colum_name] = df.loc[:, column].apply(condition_extractor)
     
     else:
-        colum_name = f'{role_name}_{condition}'
+        colum_name = f'{condition}'
         df[colum_name] = df.loc[:, column].apply(condition_extractor)
 
 
@@ -142,15 +142,22 @@ def list_cleaner (df, col_list):
 
     final_dict = {}
 
-    for c in columns:
+    for column in columns:
         append_list = []
 
         for i in range(df.shape[0]):
-            value = df.loc[i, c]
+            value = df.loc[i, column]
             append_list.append(value)
         
-        final_dict{c} = append_list
+        final_dict{column} = append_list
 
     df_new = pd.DataFrame(final_dict)
     
     return df_new
+
+
+# LAMBDAS
+
+gender = lambda x: "Female" if x == 1 else ("Male" if x == 2 else x)
+rounder = lambda x: round(x)
+todatetime = lambda e: datetime.utcfromtimestamp(e).strftime('%Y-%m-%d') # %H:%M:%S ommited

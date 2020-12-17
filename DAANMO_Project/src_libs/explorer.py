@@ -106,7 +106,7 @@ def time_indexer (df):
         df['day'] = df.index.day
 
 
-def save_df (df):
+def save_df (df, name):
     """
                         ---What it does---
     Saves your dataframe of choice to a .csv file in the same directory of the parent file
@@ -118,8 +118,5 @@ def save_df (df):
                         ---What it returns---
     This function does not return anything
     """
-
-    name = input("Type the name of your df> ")
-    name = name + ".csv"
-    
+  
     df.to_csv(name, sep = ',')
