@@ -3,9 +3,12 @@ import pandas as pd
 import numpy as np
 
 # Custom libraries
-import src_libs.data_hunter as dh
-import src_libs.explorer as exp
-import src_libs.dfnu_funcs as functions
+import data_hunter as dh
+# import src_libs.explorer as exp
+# import src_libs.dfnu_funcs as functions
+# from DAANMO_Project.src_libs import data_hunter as dh
+# from DAANMO_Project.src_libs import explorer as exp
+# from DAANMO_Project.src_libs import dfnu_funcs as functions
 
 # Loading frames
 english = pd.read_csv(r'F:\Programacion\1.BOOTCAMP\data\the-movies-dataset\names_df\scots_names.csv')
