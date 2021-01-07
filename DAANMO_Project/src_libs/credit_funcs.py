@@ -149,7 +149,7 @@ def list_cleaner (df, col_list):
             value = df.loc[i, column]
             append_list.append(value)
         
-        final_dict{column} = append_list
+        final_dict[column] = append_list
 
     df_new = pd.DataFrame(final_dict)
     
@@ -161,3 +161,6 @@ def list_cleaner (df, col_list):
 gender = lambda x: "Female" if x == 1 else ("Male" if x == 2 else x)
 rounder = lambda x: round(x)
 todatetime = lambda e: datetime.utcfromtimestamp(e).strftime('%Y-%m-%d') # %H:%M:%S ommited
+
+
+print('Credit functions library ready!')

@@ -44,7 +44,7 @@ def add_to_my_path_dir ():
     for path in sys.path:
         print(path)
 
-add_to_my_path_dir ()
+# add_to_my_path_dir ()
 
 def get_json (url, path, name = 'DEFAULT_NAME'):
     """
@@ -151,4 +151,4 @@ def csv_opener_from_path (path, sep= ','):
     return csv
 
 
-print('Library ready!')
+print('Data-Hunter library ready!')

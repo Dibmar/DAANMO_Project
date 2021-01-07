@@ -10,7 +10,7 @@ import matplotlib as plt
 # Custom libraries
 import src_libs.data_hunter as dh
 import src_libs.explorer as exp
-import src_libs.credits_funcs as cred_func
+import src_libs.credit_funcs as cred_func
 
 
 #  Importing dfs
