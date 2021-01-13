@@ -321,3 +321,10 @@ The present document serves as a Project Log. The project is archived in Kaggle 
                         - name_fixer_gen.py
             
             * All notebooks will be used as blueprints for either (or both) graphics and pdfs for final reporting.
+
+07/01/2021 .py files and name_fixer_gen:
+    * GENERAL.
+        - All issues related to data importation have been SOLVED
+    
+    * name_fixer_gen:
+        - name_fixer_gen is fully functional. Though further investigation may be needed.

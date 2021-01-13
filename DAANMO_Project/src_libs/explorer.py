@@ -68,14 +68,14 @@ def general_info (df):
     print(f'\t- Columns: {df.shape[1]}\n')
 
     # Presence of NaNs in df
-    print("\n\t\tNaN's in dataframe")
     nulls = df.isnull().any()
 
-    if nulls > 0:
-        null_count(df)
-    
-    else:
-        print('No NaN values found in df at this time.')
+    for n in nulls:
+        if n == True:
+            print("\n\t\tNaN's in dataframe")
+            null_count(df)
+            break
+
 
 
 def time_indexer (df):
@@ -119,4 +119,4 @@ def save_df (df, name):
     This function does not return anything
     """
   
-    df.to_csv(name, sep = ',')
+    df.to_csv(f'{name}_ready.csv', sep = ',')

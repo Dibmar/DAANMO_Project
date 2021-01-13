@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
 import ast
+from datetime import datetime
 
 
 
-def gender_search (df, df2, col_1):
+def gender_search (df, df2, col_1, col_2):
     """
                         ---What it does---
     Searches for values equal to 0 in the df gender column and places them into a new df object. Then splits and searches the names of those values in df2. Lastly if it finds them, updates the new df object and merges its values with those of the original df.
@@ -49,21 +50,24 @@ def cast_cleaner (df, col_1, col_list, cond_list):
     df[col_1] = df[col_1].apply(ast.literal_eval)
     
     cast_size (df, col_1)
-    col_len = len(col_list)
 
     for col_2 in range(len(col_list)):
-        condition = cond_list[a]
+        
+        for condition in cond_list:
+            
+            column = col_list[col_2]
 
-        print (f'Working on {col_2} with {condition} as filter...')
-        cast_info (df, col_1, col_2, condition)
+            print (f'Working on {column} with {condition} as filter...')
+            cast_info (df= df, col_1= col_1, col_2= column, condition= condition)
 
-        print (f'\n{col_2} done.\n')
+            print (f'\n{col_2} done.\n')
 
+    print (df.head())
 
     return df
 
 
-def json_extractor (df, column, source, role_name, condition_list, function):
+def json_extractor (df, column, source, condition_list, function):
     """
                         ---What it does---
     This function applies a series of lambdas to a json string located in a dataframe, in order to extract it's values. Overwriting the original file in the process.
@@ -81,7 +85,7 @@ def json_extractor (df, column, source, role_name, condition_list, function):
                         ---What it returns---
     This function does not return anything.
     """
-
+    condition = ''
     condition_extractor = lambda x: [i[condition] for i in x if i[source] == function]
     
     if type(condition_list) ==  list:
@@ -91,7 +95,7 @@ def json_extractor (df, column, source, role_name, condition_list, function):
             df[colum_name] = df.loc[:, column].apply(condition_extractor)
     
     else:
-        colum_name = f'{condition}'
+        colum_name = f'{condition_list}'
         df[colum_name] = df.loc[:, column].apply(condition_extractor)
 
 
@@ -142,7 +146,7 @@ def list_cleaner (df, col_list):
 
     final_dict = {}
 
-    for column in columns:
+    for column in col_list:
         append_list = []
 
         for i in range(df.shape[0]):
@@ -161,6 +165,5 @@ def list_cleaner (df, col_list):
 gender = lambda x: "Female" if x == 1 else ("Male" if x == 2 else x)
 rounder = lambda x: round(x)
 todatetime = lambda e: datetime.utcfromtimestamp(e).strftime('%Y-%m-%d') # %H:%M:%S ommited
-
 
 print('Credit functions library ready!')

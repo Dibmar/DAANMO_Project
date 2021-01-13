@@ -39,7 +39,7 @@ def add_to_my_path_dir ():
     """
     CURR_DIR = os.path.dirname(os.path.abspath(__file__))
     print(CURR_DIR)
-    CURR_DIR = sys.path.insert(0, 'Dibmar_rep\DAANMO_Project\src_libs\data_hunter.py')
+    CURR_DIR = sys.path.insert(0, 'Dibmar_rep\\DAANMO_Project\\src_libs\\data_hunter.py')
     sys.path.append(CURR_DIR)
     for path in sys.path:
         print(path)

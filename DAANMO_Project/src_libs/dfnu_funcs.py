@@ -1,5 +1,5 @@
-import pandas as import pd
-iport numpy as np
+import pandas as pd
+import numpy as np
 
 def gender_for_name (df):
     """
@@ -20,3 +20,5 @@ def gender_for_name (df):
     df['name'] = df['name'].astype(str)
     df['name'] = df['name'].apply(capper)
     df['name'] = df['name'].drop_duplicates(keep = 'first')
+    
+    return df
