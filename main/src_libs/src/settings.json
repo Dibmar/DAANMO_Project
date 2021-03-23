@@ -1,0 +1,14 @@
+{
+    "MySQL": {"IP_DNS": "54.87.229.244", 
+            "PORT": 25001, 
+            "USER": "root", 
+            "PASSWORD": "test", 
+            "DB_NAME": "australia_fires"},
+
+    "Postgre_SQL": {"HOST": "localhost", 
+                "PORT": 25001, 
+                "USER": "postgres", 
+                "PASSWORD": "1701-A", 
+                "DB_NAME": "warhammer_6th",
+                "SCHEMA": "warhammer_6th_SP"}
+}
